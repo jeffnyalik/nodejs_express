@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const { User, validateUser } = require('../models/auth.model');
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
-
+const transport = require('../config/mail.config');
 
 const registerUser = async (req, res) =>{
     const {error} = validateUser(req.body);
@@ -33,9 +33,19 @@ const registerUser = async (req, res) =>{
             password: password
         };
 
-        const response = await User.create(user_payload);
-        res.status(201).json({message: response});
+        await User.create(user_payload);
+        res.status(201).json({message: "User registered successfully"});
         console.log(response);
+
+
+        /**You can send a welcoming / greeting email here */
+        await transport.sendMail({
+            from: 'bookings.bookvacayafrica.com',
+            to: req.body.email,
+            subject: "Congratulations!!",
+            html: '<p>We are glad to welome you to our Developement house</p>'
+        });
+        /**end */
     }
 };
 
