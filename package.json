@@ -1,0 +1,31 @@
+{
+  "name": "app_two",
+  "version": "1.0.0",
+  "description": "node&express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "None"
+  },
+  "keywords": [
+    "Nodejs",
+    "express"
+  ],
+  "author": "Jeff Nyalik",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^3.7.0",
+    "sequelize": "^6.35.2"
+  },
+  "devDependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "joi": "^17.12.0",
+    "nodemailer": "^6.9.8"
+  }
+}
