@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { User, validateUser } = require('../models/auth.model');
 const Sequelize = require('sequelize');
+const jwt = require('jsonwebtoken');
 
 
 const registerUser = async (req, res) =>{
@@ -39,4 +40,31 @@ const registerUser = async (req, res) =>{
 };
 
 
-module.exports = { registerUser }
+//login 
+const userLogin = async (req, res) =>{
+    if(!req.body.email && !req.body.password){
+        res.status(400).json({message: "Body can not be empty"});
+    }else{
+        let user = await User.findOne({
+            where:{
+                [Sequelize.Op.or]:[
+                    {email: req.body.email}
+                ]
+            }
+        })
+        if(!user){
+            return res.status(400).json({token: "Invalid email or password"});
+        }
+        const correctPassword = await bcrypt.compare(req.body.password, user.password);
+        if(!correctPassword){
+            return res.status(400).json({message: "Invalid email or password"});
+        };
+        const token = jwt.sign({id:user.id, username:user.username, email:user.email},
+             SECRET="somerandomkeyssecret", {expiresIn: '1h'});
+
+        res.status(200).json({access_token: token});
+        console.log("user logged in successfully");
+    }
+}
+
+module.exports = { registerUser, userLogin }

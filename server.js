@@ -6,6 +6,7 @@ const mail_routes = require('./routes/mails/mails.route.js');
 const auth_routes = require('./routes/auth/auth.route.js');
 const app = express();
 
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
